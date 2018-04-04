@@ -18,32 +18,24 @@ router.get('/team', function(req, res, next) {
   res.render('team', { title: 'team - the code cooperative', url: req.path });
 });
 
-// router.get('/login', function(req, res, next) {
-//   res.render('login', { title: 'log in', url: req.path, user: req.user });
-// });
+router.get('/login', passport.authenticate('github'), function(req, res, next){
+  // Do nothing
+});
 
-router.get('/login',
-  passport.authenticate('github'),
-  function(req, res, next){
-    // The request will be redirected to GitHub for authentication, so this
-    // function will not be called.
-  });
+router.get('/portal', function(req, res, next) {
+  res.render('portal', { title: 'student portal - the code cooperative', url: req.path });
+});
 
-// GET /auth/github/callback
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function will be called,
-//   which, in this example, will redirect the user to the home page.
 router.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res, next) {
     res.redirect('/portal');
-  });
+  }
+);
 
-router.get('/logout', function(req, res, next){
-    console.log('logging out');
-    req.logout();
-    res.redirect('/');
-  });
+router.get('/logout', function(req, res, next) {
+  req.logout();
+  res.redirect('/');
+});
 
 module.exports = router;

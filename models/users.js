@@ -1,16 +1,15 @@
-import { ObjectId, ObjectID } from '../../../../Library/Caches/typescript/2.6/node_modules/@types/bson';
+// import { ObjectId, ObjectID } from '../../../../Library/Caches/typescript/2.6/node_modules/@types/bson';
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 ObjectId = Schema.ObjectId;
 
-mongoose.connect('mongodb://gmarraro:G13aby@ds125195.mlab.com:25195/code-coop-users')
+mongoose.connect('mongodb://codecoop:codecoop2018@ds125195.mlab.com:25195/code-coop-users');
 
 var UserSchema = new Schema({
   id: Schema.Types.ObjectId,
-  givenName: {type: String, required: true},
-  familyName: {type: String, required: true},
+  name: {type: String, required: true},
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   username: {type: String, required: true, unique: true},
@@ -18,7 +17,8 @@ var UserSchema = new Schema({
   address: String,
   dateCreated: Date,
   dateUpdated: Date,
-  role: String
+  role: String,
+  githubId: {type: String, required: true, unique: true}
 })
 
 UserSchema.pre('save', function (next) {
@@ -56,4 +56,4 @@ UserSchema.methods.comparePassword = function (passw, cb) {
   });
 };
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('user', UserSchema);
